@@ -1225,13 +1225,13 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
     <div id="mForm">
       <div class="mh"><p class="mh-title">Reserve Your Place</p><button class="mx" onclick="closeModal()">✕</button></div>
       <div class="mb">
-        <div class="dep-box"><p>This <strong>$1,000 USD deposit</strong> is required to confirm your reservation. A 48-hour grace period applies from receipt — cancel within this window for a full refund minus a $30 administrative fee. After 48 hours, your deposit becomes non-refundable. Your remaining balance will be invoiced separately per your payment plan.</p></div>
+        <div class="dep-box" id="depBox"><p>This <strong>$1,000 USD deposit</strong> is required to confirm your reservation. A 48-hour grace period applies from receipt — cancel within this window for a full refund minus a $30 administrative fee. After 48 hours, your deposit becomes non-refundable. Your remaining balance will be invoiced separately per your payment plan.</p></div>
         <div class="fg"><label class="fl">Full Name</label><input class="fi" id="fn" type="text" placeholder="Your full name"/></div>
         <div class="frow">
           <div class="fg"><label class="fl">Email</label><input class="fi" id="fe" type="email" placeholder="your@email.com"/></div>
           <div class="fg"><label class="fl">Phone (optional)</label><input class="fi" id="fp" type="tel" placeholder="+1 000 000 0000"/></div>
         </div>
-        <div class="fg"><label class="fl">Pricing Tier</label><select class="fi" id="ft"><option value="">Select tier</option><option>Founding Circle (until August 31)</option><option>Scholarship Application</option></select></div>
+        <div class="fg"><label class="fl">Pricing Tier</label><select class="fi" id="ft" onchange="applyTier()"><option value="">Select tier</option><option>Founding Circle (until August 31)</option><option>Scholarship Application</option></select></div>
         <div class="fg"><label class="fl">Room Preference</label><select class="fi" id="fr"><option value="">Select a room</option><option>Master Deluxe Suite — King bed · Founding Circle $4,099 pp (shared bed)</option><option>The Queen Suite — Queen bed · Founding Circle $3,777 pp (shared bed)</option><option>The Queen Suite — Solo occupancy · Founding Circle $5,222</option><option>The Shared Queen Suite — Individual queen beds · Founding Circle $3,999 pp</option><option>Shared Ithaca Sanctuary — Shared bathrooms · Founding Circle $2,799 pp</option><option>Ithaca Sanctuary — Private ensuite bathroom · Founding Circle $3,222 pp</option></select></div>
         <div class="fg"><label class="fl">Meal Preference</label><select class="fi" id="fm"><option value="">Select</option><option>Vegetarian</option><option>Meat &amp; Fish (+$100)</option></select></div>
         <div class="fg"><label class="fl">Allergies or Dietary Needs</label><input class="fi" id="fd" type="text" placeholder="Any restrictions or requirements"/></div>
@@ -1244,7 +1244,15 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
           </label>
         </div>
         <button class="fsub" id="fSubmitBtn" onclick="doSubmit()" disabled>Reserve My Place — $1,000 Deposit</button>
-        <p class="fnote">After submitting, you'll be directed to complete your $1,000 deposit securely via Stripe. Your place is held for 48 hours from receipt.</p>
+        <p class="fnote" id="fNote">After submitting, you'll be directed to complete your $1,000 deposit securely via Stripe. Your place is held for 48 hours from receipt.</p>
+      </div>
+    </div>
+    <div id="mSchol" style="display:none;">
+      <div class="succ">
+        <div class="succ-icon">✦</div>
+        <p class="succ-title">One step to apply.</p>
+        <p class="succ-body">The Ananda Scholarship is awarded for one Beachfront Bell Tent placement. Applications are reviewed and announced on Thanksgiving.<br><br>Your application form should have opened in a new tab. If it didn't, use the button below.</p>
+        <br/><a href="https://docs.google.com/forms/d/e/1FAIpQLSfpzgPaemffsS8jgTYyLXSl9AelmH0OoJHtu3XiUpBm463XBA/viewform?usp=header" target="_blank" rel="noopener" class="fsub" style="display:block;text-align:center;text-decoration:none;margin:0 auto 1rem;">Open Scholarship Application →</a>
       </div>
     </div>
     <div id="mSuccess" style="display:none;">
@@ -1348,6 +1356,8 @@ function openModal(room){
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow='hidden';
   if(room){
+    var tierSel=document.getElementById('ft');
+    if(tierSel && tierSel.value===SCHOL_TIER){tierSel.selectedIndex=0;applyTier();}
     var sel=document.getElementById('fr');
     if(sel){
       for(var i=0;i<sel.options.length;i++){
@@ -1361,7 +1371,38 @@ function closeModal(){
   document.body.style.overflow='';
   document.getElementById('mForm').style.display='block';
   document.getElementById('mSuccess').style.display='none';
+  document.getElementById('mSchol').style.display='none';
 }
+var SCHOL_TIER='Scholarship Application';
+var SCHOL_FORM='https://docs.google.com/forms/d/e/1FAIpQLSfpzgPaemffsS8jgTYyLXSl9AelmH0OoJHtu3XiUpBm463XBA/viewform?usp=header';
+var SCHOL_ROOM='Beachfront Bell Tent — Scholarship placement';
+var PAID_ROOMS=(function(){
+  var o=document.querySelectorAll('#fr option'),a=[],i;
+  for(i=1;i<o.length;i++){a.push(o[i].text);}
+  return a;
+})();
+
+function applyTier(){
+  var tier=document.getElementById('ft').value,
+      sel=document.getElementById('fr'),
+      isSchol=(tier===SCHOL_TIER),
+      list=isSchol?[SCHOL_ROOM]:PAID_ROOMS,
+      i,o;
+  sel.innerHTML='';
+  o=document.createElement('option');o.value='';o.text=isSchol?'Bell Tent':'Select a room';sel.add(o);
+  for(i=0;i<list.length;i++){o=document.createElement('option');o.text=list[i];sel.add(o);}
+  if(isSchol){sel.selectedIndex=1;}
+  document.getElementById('depBox').innerHTML=isSchol
+    ? '<p>The <strong>Ananda Scholarship</strong> covers one Beachfront Bell Tent placement. <strong>No deposit is required to apply.</strong> Applications are reviewed and announced on Thanksgiving.</p>'
+    : '<p>This <strong>$1,000 USD deposit</strong> is required to confirm your reservation. A 48-hour grace period applies from receipt — cancel within this window for a full refund minus a $30 administrative fee. After 48 hours, your deposit becomes non-refundable. Your remaining balance will be invoiced separately per your payment plan.</p>';
+  document.getElementById('fSubmitBtn').textContent=isSchol
+    ? 'Continue to Scholarship Application →'
+    : 'Reserve My Place — $1,000 Deposit';
+  document.getElementById('fNote').textContent=isSchol
+    ? 'You\'ll be taken to a short application form. No payment is taken at this stage.'
+    : "After submitting, you'll be directed to complete your $1,000 deposit securely via Stripe. Your place is held for 48 hours from receipt.";
+}
+
 function doSubmit(){
   var name  = document.getElementById('fn').value.trim();
   var email = document.getElementById('fe').value.trim();
@@ -1372,6 +1413,12 @@ function doSubmit(){
   }
   if(!document.getElementById('fTc').checked){
     alert('Please agree to the Terms & Conditions to continue.');return;
+  }
+  if(tier===SCHOL_TIER){
+    window.open(SCHOL_FORM,'_blank');
+    document.getElementById('mForm').style.display='none';
+    document.getElementById('mSchol').style.display='block';
+    return;
   }
   var subject = encodeURIComponent('Return to Ananda — Reservation Request from '+name);
   var body = encodeURIComponent(
