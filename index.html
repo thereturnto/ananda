@@ -505,6 +505,8 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
 .tc-text{font-size:0.75rem;line-height:1.7;color:var(--brown-mid);}
 .tc-intro{font-size:0.75rem;line-height:1.7;color:var(--brown-mid);font-style:italic;margin-bottom:0.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
 </style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">emailjs.init('UBm9mW2nLFTmZ1vA6');</script>
 </head>
 <body>
 
@@ -1420,22 +1422,31 @@ function doSubmit(){
     document.getElementById('mSchol').style.display='block';
     return;
   }
-  var subject = encodeURIComponent('Return to Ananda — Reservation Request from '+name);
-  var body = encodeURIComponent(
-    'Name: '+name+'\nEmail: '+email+
-    '\nPhone: '+(document.getElementById('fp').value||'—')+
-    '\nTier: '+tier+'\nRoom: '+room+
-    '\nMeal: '+(document.getElementById('fm').value||'—')+
-    '\nAllergies: '+(document.getElementById('fd').value||'—')+
-    '\nPayment Plan: '+(document.getElementById('fpp').value||'—')+
-    '\nNotes: '+(document.getElementById('fnt').value||'—')
-  );
-  var mailto='mailto:infolunacastilho@gmail.com,tori_bate_@hotmail.com?subject='+subject+'&body='+body;
-  window.open(mailto,'_self');
-  setTimeout(function(){
-    document.getElementById('mForm').style.display='none';
-    document.getElementById('mSuccess').style.display='block';
-  },800);
+  var btn = document.getElementById('fSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  var params = {
+    name: name,
+    time: new Date().toLocaleString('en-US', {dateStyle:'full', timeStyle:'short'}),
+    message: 'Email: ' + email +
+      '\nPhone: ' + (document.getElementById('fp').value||'—') +
+      '\nTier: ' + tier +
+      '\nRoom: ' + room +
+      '\nMeal: ' + (document.getElementById('fm').value||'—') +
+      '\nAllergies: ' + (document.getElementById('fd').value||'—') +
+      '\nPayment Plan: ' + (document.getElementById('fpp').value||'—') +
+      '\nNotes: ' + (document.getElementById('fnt').value||'—')
+  };
+  emailjs.send('service_ou6tjbw', 'template_8v4eaba', params)
+    .then(function(){
+      document.getElementById('mForm').style.display='none';
+      document.getElementById('mSuccess').style.display='block';
+    }, function(error){
+      alert('Something went wrong. Please email us directly at infolunacastilho@gmail.com');
+      btn.disabled = false;
+      btn.textContent = 'Reserve My Place — $1,000 Deposit';
+      console.error('EmailJS error:', error);
+    });
 }
 document.addEventListener('DOMContentLoaded',function(){
   var m=document.getElementById('modal');
@@ -1469,14 +1480,19 @@ function sendEmail(){
   var email = document.getElementById('eq-email').value.trim();
   var msg   = document.getElementById('eq-msg').value.trim();
   if(!name||!email||!msg){alert('Please fill in your name, email and question.');return;}
-  var subject = encodeURIComponent('Return to Ananda — Question from '+name);
-  var body    = encodeURIComponent('From: '+name+' ('+email+')\n\n'+msg);
-  var mailto  = 'mailto:infolunacastilho@gmail.com,tori_bate_@hotmail.com?subject='+subject+'&body='+body;
-  window.open(mailto,'_self');
-  setTimeout(function(){
-    document.getElementById('emailForm').style.display='none';
-    document.getElementById('emailSuccess').style.display='block';
-  },1000);
+  var params = {
+    name: name,
+    time: new Date().toLocaleString('en-US', {dateStyle:'full', timeStyle:'short'}),
+    message: 'From: ' + name + ' (' + email + ')\n\n' + msg
+  };
+  emailjs.send('service_ou6tjbw', 'template_8v4eaba', params)
+    .then(function(){
+      document.getElementById('emailForm').style.display='none';
+      document.getElementById('emailSuccess').style.display='block';
+    }, function(error){
+      alert('Something went wrong. Please email us directly at infolunacastilho@gmail.com');
+      console.error('EmailJS error:', error);
+    });
 }
 document.addEventListener('DOMContentLoaded',function(){
   var em=document.getElementById('emailModal');
