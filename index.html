@@ -1100,7 +1100,7 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
       <!-- CARD 2: GENERAL REGISTRATION -->
       <div class="pay-card-3">
         <div class="pay-card-top">
-          <span class="pay-badge pay-badge-muted">Beginning October 10</span>
+          <span class="pay-badge pay-badge-muted">Beginning in October</span>
           <p class="pay-name-3">General Registration</p>
           <p class="pay-tagline">&nbsp;</p>
         </div>
@@ -1137,7 +1137,6 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
 
     <!-- T&Cs -->
     <div class="pay-tc">
-      <p>Payment plans available subject to a <strong>$150 admin fee</strong>.</p>
       <p>If unable to join, your spot is <strong>transferable until December 1st, 2026</strong> — deposit returned less a $150 admin fee. After this date, non-refundable and non-transferable.</p>
     </div>
   </div>
@@ -1260,7 +1259,7 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
       <button class="btn-book" onclick="openModal()">Reserve With $1,000 Deposit</button>
       <button class="btn-ghost-book" onclick="openEmailModal()" style="cursor:pointer;font-family:'Inter',sans-serif;">Ask a Question</button>
     </div>
-    <p class="book-sm">48hr grace period · Transferable until Dec 1st, 2026 · Payment plans available</p>
+    <p class="book-sm">48hr grace period · Transferable until Dec 1st, 2026</p>
   </div>
 </section>
 
@@ -1301,7 +1300,7 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
     <div id="mForm">
       <div class="mh"><p class="mh-title">Reserve Your Place</p><button class="mx" onclick="closeModal()">✕</button></div>
       <div class="mb">
-        <div class="dep-box" id="depBox"><p>This <strong>$1,000 USD deposit</strong> is required to confirm your reservation. A 48-hour grace period applies from receipt — cancel within this window for a full refund minus a $30 administrative fee. After 48 hours, your deposit becomes non-refundable. Your remaining balance will be invoiced separately per your payment plan.</p></div>
+        <div class="dep-box" id="depBox"><p>This <strong>$1,000 USD deposit</strong> is required to confirm your reservation. A 48-hour grace period applies from receipt — cancel within this window for a full refund minus a $30 administrative fee. After 48 hours, your deposit becomes non-refundable. Your remaining balance will be invoiced separately.</p></div>
         <div class="fg"><label class="fl">Full Name</label><input class="fi" id="fn" type="text" placeholder="Your full name"/></div>
         <div class="frow">
           <div class="fg"><label class="fl">Email</label><input class="fi" id="fe" type="email" placeholder="your@email.com"/></div>
@@ -1311,7 +1310,7 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
         <div class="fg"><label class="fl">Room Preference</label><select class="fi" id="fr"><option value="">Select a room</option><option>Master Deluxe Suite — King bed · Early Bird $8,598 total (shared bed)</option><option>The Queen Suite — Queen bed · Early Bird $7,998 total (shared bed)</option><option>The Queen Suite — Solo occupancy · Early Bird $5,555</option><option>The Shared Queen Suite — Individual queen beds · Early Bird $3,999 pp</option><option>Shared Ithaca Sanctuary — Shared bathrooms · Early Bird $2,999 pp</option><option>Ithaca Sanctuary — Private ensuite bathroom · Early Bird $3,434 pp</option></select></div>
         <div class="fg"><label class="fl">Meal Preference</label><select class="fi" id="fm"><option value="">Select</option><option>Vegetarian</option><option>Meat &amp; Fish (+$150)</option></select></div>
         <div class="fg"><label class="fl">Allergies or Dietary Needs</label><input class="fi" id="fd" type="text" placeholder="Any restrictions or requirements"/></div>
-        <div class="fg"><label class="fl">Payment Plan Interest?</label><select class="fi" id="fpp"><option value="">Select</option><option>Full payment preferred</option><option>Interested in payment plan (+$150 admin fee)</option></select></div>
+        
         <div class="fg"><label class="fl">Anything you'd like us to know?</label><textarea class="fi" id="fnt" rows="3" style="resize:vertical;" placeholder="Injuries, intentions, questions — we want to know you before you arrive."></textarea></div>
         <div class="fg tc-check-wrap">
           <label class="tc-check-label">
@@ -1353,8 +1352,8 @@ footer{background:var(--lagoon-dark);padding:3.5rem;text-align:center;}
       <p class="tc-section-title">1. Reservation &amp; Deposit</p>
       <p class="tc-text">A $1,000 USD non-refundable deposit is required to reserve your space. A 48-hour grace period is offered following receipt of your deposit — during this time, you may cancel and receive a full refund. After the 48-hour grace period has elapsed, all deposits become non-refundable. Your reservation is not confirmed until your deposit has been received.</p>
 
-      <p class="tc-section-title">2. Payment Plans</p>
-      <p class="tc-text">Payment plans are available upon request. A $150 USD administrative fee applies to all payment plans. All balances must be paid according to the agreed payment schedule. Failure to complete payments by the specified due dates may result in forfeiture of your reservation and any monies previously paid.</p>
+      <p class="tc-section-title">2. Final Balance</p>
+      <p class="tc-text">The remaining balance must be paid in full by the final balance date stated for your pricing tier. Failure to complete payment by the specified due date may result in forfeiture of your reservation and any monies previously paid.</p>
 
       <p class="tc-section-title">3. Transfer &amp; Cancellation Policy</p>
       <p class="tc-text">We understand that unexpected circumstances can arise. Due to the significant financial commitments made in advance to secure the retreat venue, accommodations, meals, staff, and programming, the following policy applies:</p>
@@ -1470,7 +1469,7 @@ function applyTier(){
   if(isSchol){sel.selectedIndex=1;}
   document.getElementById('depBox').innerHTML=isSchol
     ? '<p>The <strong>Ananda Scholarship</strong> covers one Beachfront Bell Tent placement. <strong>No deposit is required to apply.</strong> Applications are reviewed and announced on Thanksgiving.</p>'
-    : '<p>This <strong>$1,000 USD deposit</strong> is required to confirm your reservation. A 48-hour grace period applies from receipt — cancel within this window for a full refund minus a $30 administrative fee. After 48 hours, your deposit becomes non-refundable. Your remaining balance will be invoiced separately per your payment plan.</p>';
+    : '<p>This <strong>$1,000 USD deposit</strong> is required to confirm your reservation. A 48-hour grace period applies from receipt — cancel within this window for a full refund minus a $30 administrative fee. After 48 hours, your deposit becomes non-refundable. Your remaining balance will be invoiced separately.</p>';
   document.getElementById('fSubmitBtn').textContent=isSchol
     ? 'Continue to Scholarship Application →'
     : 'Reserve My Place — $1,000 Deposit';
@@ -1516,7 +1515,6 @@ function doSubmit(){
       '\nRoom: ' + room +
       '\nMeal: ' + (document.getElementById('fm').value||'—') +
       '\nAllergies: ' + (document.getElementById('fd').value||'—') +
-      '\nPayment Plan: ' + (document.getElementById('fpp').value||'—') +
       '\nNotes: ' + (document.getElementById('fnt').value||'—')
   };
   emailjs.send('service_ou6tjbw', 'template_8v4eaba', params)
